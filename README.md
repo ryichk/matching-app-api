@@ -1,24 +1,27 @@
-# README
+# Matching App API README
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
-Things you may want to cover:
+## Set Up
 
-* Ruby version
+```sh
+$ docker-compose up -d
+```
 
-* System dependencies
+## Database initialization
 
-* Configuration
+```sh
+$ docker-compose run --rm api bundle exec rails db:prepare
+```
 
-* Database creation
+## Run bundle install
 
-* Database initialization
+```sh
+$ docker-compose run --rm api bundle install
+```
+## How to run the test suite
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```sh
+$ docker-compose run --rm api bin/rspec
+```
