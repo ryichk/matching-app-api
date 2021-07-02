@@ -11,7 +11,8 @@ RSpec.describe 'Api::V1::Auth::Registrations', type: :request do
           expect(response).to have_http_status(200)
           expect(response_body['status']).to eq('success')
           expect(response_body['data']['id']).to eq(User.last.id)
-          expect(response_body['data']['name']).to eq(User.last.name)
+          expect(response_body['data']['first_name']).to eq(User.last.first_name)
+          expect(response_body['data']['last_name']).to eq(User.last.last_name)
           expect(response_body['data']['email']).to eq(User.last.email)
           expect(response_body['data']['password']).to eq(User.last.password)
         end
@@ -25,7 +26,8 @@ RSpec.describe 'Api::V1::Auth::Registrations', type: :request do
           expect(response).to have_http_status(200)
           expect(response_body['status']).to eq('success')
           expect(response_body['data']['id']).to eq(User.last.id)
-          expect(response_body['data']['name']).to eq(User.last.name)
+          expect(response_body['data']['first_name']).to eq(User.last.first_name)
+          expect(response_body['data']['last_name']).to eq(User.last.last_name)
           expect(response_body['data']['email']).to eq(User.last.email)
           expect(response_body['data']['password']).to eq(User.last.password)
         end
