@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_12_142303) do
+ActiveRecord::Schema.define(version: 2021_07_01_135720) do
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -24,10 +24,15 @@ ActiveRecord::Schema.define(version: 2021_06_12_142303) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.string "name"
+    t.string "first_name", null: false
+    t.string "last_name", null: false
     t.string "nickname"
+    t.integer "gender", default: 0, null: false
     t.string "image"
     t.string "email"
+    t.date "birthday"
+    t.string "profile", limit: 3000
+    t.integer "prefecture", default: 1, null: false
     t.text "tokens"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

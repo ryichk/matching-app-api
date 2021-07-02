@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   describe 'creation successful' do
     context 'valid values' do
-      it 'is correct name, email, password and password_confirmation' do
+      it 'is correct first_name, last_name, email, password and password_confirmation' do
         user = build(:user)
         expect(user).to be_valid
       end
@@ -22,8 +22,13 @@ RSpec.describe User, type: :model do
 
   describe 'creation failure' do
     context 'blank value' do
-      it 'is blank name' do
-        user = build(:user, name: nil)
+      it 'is blank first name' do
+        user = build(:user, first_name: nil)
+        expect(user).to be_invalid
+      end
+
+      it 'is blank last name' do
+        user = build(:user, last_name: nil)
         expect(user).to be_invalid
       end
 
@@ -61,5 +66,4 @@ RSpec.describe User, type: :model do
       end
     end
   end
-
 end
