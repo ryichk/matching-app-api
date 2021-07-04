@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
 
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :nickname, presence: true
+  validates :gender, presence: true
+  validates :prefecture, presence: true
 
   mount_uploader :image, ImageUploader
 end
