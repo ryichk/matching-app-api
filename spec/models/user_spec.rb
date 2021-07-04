@@ -32,6 +32,11 @@ RSpec.describe User, type: :model do
         expect(user).to be_invalid
       end
 
+      it 'is blank nickname' do
+        user = build(:user, nickname: nil)
+        expect(user).to be_invalid
+      end
+
       it 'is blank email' do
         user = build(:user, email: nil)
         expect(user).to be_invalid
@@ -39,6 +44,16 @@ RSpec.describe User, type: :model do
 
       it 'is blank password' do
         user = build(:user, password: nil)
+        expect(user).to be_invalid
+      end
+
+      it 'is blank gender' do
+        user = build(:user, gender: nil)
+        expect(user).to be_invalid
+      end
+
+      it 'is blank prefecture' do
+        user = build(:user, prefecture: nil)
         expect(user).to be_invalid
       end
     end
