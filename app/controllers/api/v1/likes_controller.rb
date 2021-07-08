@@ -11,21 +11,7 @@ class Api::V1::LikesController < ApplicationController
 
   def create
     active_like = Like.find_or_initialize_by(like_params)
-    if active_like.from_user_id != current_api_v1_user.id
-      render json: {
-        status: 500,
-        message: 'Error: 不正ユーザーのためLikeできません。'
-      }
-      return
-    elsif active_like.to_user_id == current_api_v1_user.id
-      render json: {
-        status: 500,
-        message: 'Error: 自分をLikeすることはできません。'
-      }
-      return
-    end
-
-    if active_like.save
+    if likes?(active_like) && active_like.save
       render json: {
         status: 200,
         like: active_like
@@ -42,5 +28,13 @@ class Api::V1::LikesController < ApplicationController
 
   def like_params
     params.permit(:from_user_id, :to_user_id)
+  end
+
+  def likes?(active_like)
+    if active_like.from_user_id != current_api_v1_user.id || active_like.to_user_id == current_api_v1_user.id
+      false
+    else
+      true
+    end
   end
 end

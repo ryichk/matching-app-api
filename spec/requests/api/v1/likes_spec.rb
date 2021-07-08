@@ -68,7 +68,7 @@ RSpec.describe 'Api::V1::Likes', type: :request do
           response_body = JSON.parse(response.body)
           aggregate_failures do
             expect(response_body['status']).to eq(500)
-            expect(response_body['message']).to eq('Error: 不正ユーザーのためLikeできません。')
+            expect(response_body['message']).to eq('Error: Likeできませんでした。')
           end
         end
 
@@ -81,7 +81,7 @@ RSpec.describe 'Api::V1::Likes', type: :request do
           response_body = JSON.parse(response.body)
           aggregate_failures do
             expect(response_body['status']).to eq(500)
-            expect(response_body['message']).to eq('Error: 不正ユーザーのためLikeできません。')
+            expect(response_body['message']).to eq('Error: Likeできませんでした。')
           end
         end
 
@@ -94,7 +94,7 @@ RSpec.describe 'Api::V1::Likes', type: :request do
           response_body = JSON.parse(response.body)
           aggregate_failures do
             expect(response_body['status']).to eq(500)
-            expect(response_body['message']).to eq('Error: 自分をLikeすることはできません。')
+            expect(response_body['message']).to eq('Error: Likeできませんでした。')
           end
         end
       end
