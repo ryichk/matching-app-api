@@ -36,18 +36,40 @@ RSpec.describe 'Api::V1::Likes', type: :request do
 
     describe 'POST /create' do
       context 'success status' do
-        it 'is when male user likes female user' do
+        it 'is when male_user is sending Like to female_user' do
           params = {
             from_user_id: male_user.id,
             to_user_id: female_user.id
           }
-          post(api_v1_likes_path, params: params, headers: @auth_token)
-          response_body = JSON.parse(response.body)
           aggregate_failures do
+            expect {
+              post(api_v1_likes_path, params: params, headers: @auth_token)
+            }.to_not change { [ChatRoomUser.count, ChatRoom.count] }
             expect(response).to have_http_status(200)
+            response_body = JSON.parse(response.body)
             expect(response_body['status']).to eq(200)
             expect(response_body['like']['from_user_id']).to eq(male_user.id)
             expect(response_body['like']['to_user_id']).to eq(female_user.id)
+            expect(response_body['is_matched']).to eq(false)
+          end
+        end
+
+        it 'is when male_user is sending a Like to female_user and female_user is already sending a Like to male_user' do
+          create(:like, from_user_id: female_user.id, to_user_id: male_user.id)
+          params = {
+            from_user_id: male_user.id,
+            to_user_id: female_user.id,
+          }
+          aggregate_failures do
+            expect {
+              post(api_v1_likes_path, params: params, headers: @auth_token)
+            }.to change { [ChatRoomUser.count, ChatRoom.count] }.by([2, 1])
+            expect(response).to have_http_status(200)
+            response_body = JSON.parse(response.body)
+            expect(response_body['status']).to eq(200)
+            expect(response_body['like']['from_user_id']).to eq(male_user.id)
+            expect(response_body['like']['to_user_id']).to eq(female_user.id)
+            expect(response_body['is_matched']).to eq(true)
           end
         end
       end
@@ -68,7 +90,7 @@ RSpec.describe 'Api::V1::Likes', type: :request do
           response_body = JSON.parse(response.body)
           aggregate_failures do
             expect(response_body['status']).to eq(500)
-            expect(response_body['message']).to eq('Error: Likeできませんでした。')
+            expect(response_body['message']).to eq('Error: 不正ユーザーのためLikeできません。')
           end
         end
 
@@ -81,7 +103,7 @@ RSpec.describe 'Api::V1::Likes', type: :request do
           response_body = JSON.parse(response.body)
           aggregate_failures do
             expect(response_body['status']).to eq(500)
-            expect(response_body['message']).to eq('Error: Likeできませんでした。')
+            expect(response_body['message']).to eq('Error: 不正ユーザーのためLikeできません。')
           end
         end
 
@@ -94,7 +116,7 @@ RSpec.describe 'Api::V1::Likes', type: :request do
           response_body = JSON.parse(response.body)
           aggregate_failures do
             expect(response_body['status']).to eq(500)
-            expect(response_body['message']).to eq('Error: Likeできませんでした。')
+            expect(response_body['message']).to eq('Error: 不正ユーザーのためLikeできません。')
           end
         end
       end
