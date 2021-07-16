@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :likes, only: %i[index create]
       resources :users, only: %i[index show]
+      resources :chat_rooms, only: %i[index show]
 
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {
         registrations: 'api/v1/auth/registrations'

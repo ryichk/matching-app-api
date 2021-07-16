@@ -29,7 +29,10 @@ RSpec.describe 'Api::V1::Likes', type: :request do
         it 'send without token in the request header' do
           get(api_v1_likes_path)
           response_body = JSON.parse(response.body)
-          expect(response_body['errors'][0]).to eq('You need to sign in or sign up before continuing.')
+          aggregate_failures do
+            expect(response).to have_http_status(401)
+            expect(response_body['errors'][0]).to eq('You need to sign in or sign up before continuing.')
+          end
         end
       end
     end
@@ -82,7 +85,10 @@ RSpec.describe 'Api::V1::Likes', type: :request do
           }
           post(api_v1_likes_path, params: params)
           response_body = JSON.parse(response.body)
-          expect(response_body['errors'][0]).to eq('You need to sign in or sign up before continuing.')
+          aggregate_failures do
+            expect(response).to have_http_status(401)
+            expect(response_body['errors'][0]).to eq('You need to sign in or sign up before continuing.')
+          end
         end
 
         it 'send without parameters' do
