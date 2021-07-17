@@ -60,12 +60,14 @@ RSpec.describe User, type: :model do
 
     context 'invalid value' do
       it 'is password length of 7 characters' do
-        user = build(:user, password: 'passwor', password_confirmation: 'passwor')
+        password = (0...6).to_a.join
+        user = build(:user, password: password, password_confirmation: 'passwor')
         expect(user).to be_invalid
       end
 
       it 'is password length of 33 characters' do
-        user = build(:user, password: 'passwordpasswordpasswordpasswordp', password_confirmation: 'passwordpasswordpasswordpasswordp')
+        password = (0...32).to_a.join
+        user = build(:user, password: password, password_confirmation: 'passwordpasswordpasswordpasswordp')
         expect(user).to be_invalid
       end
 
