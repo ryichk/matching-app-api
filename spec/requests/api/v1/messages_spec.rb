@@ -4,11 +4,7 @@ RSpec.describe "Api::V1::Messages", type: :request do
   describe 'POST /create' do
     let(:current_user) { create(:user, gender: 0) }
     let(:other_user) { create(:user, gender: 1) }
-    let(:current_user_likes_other_user) { create(:like, from_user_id: current_user.id, to_user_id: other_user.id) }
-    let(:other_user_likes_current_user) { create(:like, from_user_id: other_user.id, to_user_id: current_user.id) }
     let(:chat_room) { create(:chat_room) }
-    let(:chat_room_current_user) { create(:chat_room_user, chat_room_id: chat_room.id, user_id: current_user.id) }
-    let(:chat_room_other_user) { create(:chat_room_user, chat_room_id: chat_room.id, user_id: other_user.id) }
 
     before do
       params = {
@@ -47,20 +43,6 @@ RSpec.describe "Api::V1::Messages", type: :request do
           content: 'test message'
         }
         post(api_v1_messages_path, params: params)
-        response_body = JSON.parse(response.body)
-        aggregate_failures do
-          expect(response).to have_http_status(401)
-          expect(response_body['errors'][0]).to eq('You need to sign in or sign up before continuing.')
-        end
-      end
-
-      it 'send message without chat room' do
-        params = {
-          chat_room_id: nil,
-          user_id: current_user.id,
-          content: 'test message'
-        }
-        post(api_v1_messages_path, params: params, headers: @auth_token)
         response_body = JSON.parse(response.body)
         aggregate_failures do
           expect(response).to have_http_status(401)
